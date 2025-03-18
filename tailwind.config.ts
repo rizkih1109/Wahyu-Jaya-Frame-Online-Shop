@@ -13,6 +13,8 @@ export default {
         foreground: "var(--foreground)",
         inputBg: "#EDE5D7",
         orangeMain: "#F1AA45",
+        gondawa: "#BAB4A8",
+        slateBg: "#F7F9FD"
       },
     },
   },

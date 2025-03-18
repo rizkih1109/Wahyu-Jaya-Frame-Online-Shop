@@ -1,5 +1,5 @@
-import { checkToken } from "@/app/lib/helpers/util"
-import { prisma } from "@/app/lib/prisma/prisma"
+import { checkToken } from "@/lib/helpers/util"
+import { prisma } from "@/lib/prisma/prisma"
 import { NextResponse } from "next/server"
 
 export async function POST(req:Request) {

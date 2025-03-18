@@ -1,5 +1,5 @@
-import { createAccessToken, createRefreshToken } from "@/app/lib/helpers/util";
-import { prisma } from "@/app/lib/prisma/prisma";
+import { createAccessToken, createRefreshToken } from "@/lib/helpers/util";
+import { prisma } from "@/lib/prisma/prisma";
 
 import { NextResponse } from "next/server";
 

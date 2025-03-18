@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { checkToken } from "./lib/helpers/util";
+import { checkToken } from "../lib/helpers/util";
 
 export function middleware(req: NextRequest) {
     const token = req.cookies.get("token")?.value;

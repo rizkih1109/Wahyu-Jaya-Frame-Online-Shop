@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../lib/redux/hooks";
-import { RootState } from "../lib/redux/store";
-import { loginAsync } from "../lib/redux/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../../lib/redux/hooks";
+import { RootState } from "../../lib/redux/store";
+import { loginAsync } from "../../lib/redux/user/userSlice";
 import { useRouter } from "next/navigation";
 // import { useRouter } from "next/navigation";
 

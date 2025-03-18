@@ -4,7 +4,13 @@ import { hashPassword } from "../helpers/util";
 const globalForPrisma = globalThis as unknown as { prisma: ReturnType<typeof prismaClientSingleton> };
 
 const prismaClientSingleton = () => {
-  const prismaClient = new PrismaClient().$extends({
+  const prismaClient = new PrismaClient({
+    // omit: {
+    //   user: {
+    //     password: true
+    //   }
+    // }
+  }).$extends({
     model: {
       user: {
         async signUp(email: string, password: string) {
