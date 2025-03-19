@@ -1,7 +1,13 @@
-'use client'
+"use client";
+
+import BackgroundHome from "./components/BackgroundHome";
+import Header from "./components/Header";
 
 export default function Home() {
   return (
-    <h1>Ini halaman utama</h1>
+    <>
+      <Header />
+      <BackgroundHome />
+    </>
   );
 }

@@ -16,6 +16,9 @@ export default {
         gondawa: "#BAB4A8",
         slateBg: "#F7F9FD"
       },
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"]
+      }
     },
   },
   plugins: [],
