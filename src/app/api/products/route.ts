@@ -3,8 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
     const page = Number(request.nextUrl.searchParams.get('page')) || 1
+    const keyword = request.nextUrl.searchParams.get('keyword') || ''
     try {
         const data = await prisma.product.findMany({
+            where: {
+                name: keyword
+            },
             skip: (page - 1) * 10,
             take: 10
         })
