@@ -1,8 +1,8 @@
 'use client'
 // import ChartBox from "@/app/components/dashboard/chart/ChartBox";
-import LineChart from "@/app/components/dashboard/chart/LineChart";
-import DateSettings from "@/app/components/dashboard/DateSettings";
-import TotalSum from "@/app/components/dashboard/totalsum/TotalSum";
+import LineChart from "@/components/dashboard/chart/LineChart";
+import DateSettings from "@/components/dashboard/DateSettings";
+import TotalSum from "@/components/dashboard/totalsum/TotalSum";
 // import TableBoxReport from "@/app/components/dashboard/tablereport/TableBoxReport";
 // import TotalSum from "@/app/components/dashboard/TotalSum";
 
