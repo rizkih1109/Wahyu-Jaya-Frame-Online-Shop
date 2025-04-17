@@ -9,7 +9,7 @@ export async function GET() {
     if (err instanceof Error) {
       console.log(err);
       return NextResponse.json(
-        { message: "get users failed" },
+        { message: "get stores failed" },
         { status: 500 }
       );
     }
@@ -29,7 +29,7 @@ export async function POST(req:Request) {
     if (err instanceof Error) {
       console.log(err);
       return NextResponse.json(
-        { message: "get users failed" },
+        { message: "add store failed" },
         { status: 500 }
       );
     }
