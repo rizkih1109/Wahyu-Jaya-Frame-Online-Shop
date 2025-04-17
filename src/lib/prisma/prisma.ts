@@ -5,11 +5,11 @@ const globalForPrisma = globalThis as unknown as { prisma: ReturnType<typeof pri
 
 const prismaClientSingleton = () => {
   const prismaClient = new PrismaClient({
-    // omit: {
-    //   user: {
-    //     password: true
-    //   }
-    // }
+    omit: {
+      user: {
+        password: true
+      }
+    }
   }).$extends({
     model: {
       user: {

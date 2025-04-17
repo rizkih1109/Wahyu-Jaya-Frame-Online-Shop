@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     const seller = await prisma.user.update({
       where: { id: user.id },
       data: {
-        role: "seller",
+        role: "SELLER",
       },
     });
     return NextResponse.json(seller);

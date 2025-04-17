@@ -13,13 +13,184 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            Int       @id @default(autoincrement())
-  email         String    @unique
-  password      String    
-  userName      String?   @db.VarChar(225)
-  phone         String?    
-  address       String?    
-  role          String    @default("customer")
-  refreshToken   String?    
+model Store {
+  id            Int            @id @default(autoincrement())
+  storeName     String         @db.VarChar(225)
+  address       String         @db.VarChar(225)
+  users         User[]
+  product       Product[]
+  order         Order[]
 }
+
+model User {
+  id                Int               @id @default(autoincrement())
+  email             String            @unique
+  password          String    
+  userName          String?           @db.VarChar(225)
+  phone             String?    
+  role              Role              @default(CUSTOMER)
+  avatar            String?
+  refreshToken      String?   
+  storeId           Int
+  provincyId        String
+  cityId            String
+  districtId        String
+  villageId         String
+  street            String            @db.VarChar(225)
+  store             Store             @relation(fields: [storeId], references: [id])
+  provincy          Provincy          @relation(fields: [provincyId], references: [id])
+  city              City              @relation(fields: [cityId], references: [id])
+  district          District          @relation(fields: [districtId], references: [id])
+  village           Village           @relation(fields: [villageId], references: [id])
+  products          Product[]
+  reviews           Review[]
+  orders            Order[]
+  cart              Cart?
+}
+
+model Provincy {
+  id                String            @id
+  provincyName      String            @db.VarChar(50)
+  cities            City[]
+  users             User[]
+}
+
+model City {
+  id                String            @id
+  cityName          String          
+  provincyId        String
+  provincy          Provincy          @relation(fields: [provincyId], references: [id])
+  districts         District[]
+  users             User[]
+}
+
+model District {
+  id                String            @id
+  districtName      String
+  cityId            String
+  city              City              @relation(fields: [cityId], references: [id])
+  villages          Village[]         
+  users             User[]
+}
+
+model Village {
+  id                String            @id
+  villageName       String
+  districtId        String
+  districts         District          @relation(fields: [districtId], references: [id])
+  users             User[]
+}
+
+model Product {
+  id                Int               @id @default(autoincrement())
+  productName       String            @db.VarChar(225)
+  description       String            @db.VarChar(1000)
+  images            String[]
+  stock             Int
+  price             Decimal           @db.Decimal(19,2)
+  store             Store             @relation(fields: [storeId], references: [id])
+  storeId           Int
+  user              User              @relation(fields: [userId], references: [id])
+  userId            Int
+  review            Review[]
+  category          ProductCategory[]
+  orderItems        OrderItem[]
+  cartItems         CartItem[]
+}
+
+model Category {
+  id                Int               @id @default(autoincrement())
+  categoryName      String            @db.VarChar(225)
+  product           ProductCategory[]
+}
+
+model ProductCategory {
+  productId         Int
+  categoryId        Int
+  product           Product           @relation(fields: [productId], references: [id])
+  category          Category          @relation(fields: [categoryId], references: [id])
+  @@id([productId, categoryId])
+}
+
+model Review {
+  id                Int               @id @default(autoincrement())
+  rating            Decimal           @db.Decimal(1,1)
+  comment           String            @db.VarChar(1000)
+  createdAt         DateTime          @default(now())
+  userId            Int
+  productId         Int
+  user              User              @relation(fields: [userId], references: [id])
+  product           Product           @relation(fields: [productId], references: [id])
+}
+
+model OrderItem {
+  id                Int               @id @default(autoincrement())
+  quantity          Int
+  price             Decimal           @db.Decimal(19,2)
+  note              String?           @db.VarChar(100)
+  createdAt         DateTime          @default(now())
+  productId         Int
+  invoice_number    String
+  product           Product           @relation(fields: [productId], references: [id])
+  order             Order             @relation(fields: [invoice_number], references: [invoice_number])
+}
+
+model Order {
+  invoice_number    String            @id                
+  totalPrice        Decimal           @db.Decimal(19,2)
+  shippingCost      Decimal           @db.Decimal(19,2)
+  totalAmount       Decimal           @db.Decimal(19,2)
+  paymentStatus     PaymentStatus     @default(PENDING)
+  paymentProof      String?
+  paymentDate       DateTime?       
+  status            OrderStatus       @default(PENDING)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  storeId           Int
+  customerId        Int
+  store             Store             @relation(fields: [storeId], references: [id])
+  user              User              @relation(fields: [customerId], references: [id])
+  orderItems        OrderItem[]
+}
+
+model CartItem {
+  id                Int               @id @default(autoincrement())
+  quantity          Int
+  price             Decimal           @db.Decimal(19,2)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  cart              Cart              @relation(fields: [cartId], references: [id])
+  cartId            Int
+  product           Product           @relation(fields: [productId], references: [id])
+  productId         Int          
+}
+
+model Cart {
+  id                Int               @id @default(autoincrement())
+  user              User              @relation(fields: [userId], references: [id])
+  userId            Int               @unique
+  CartItems         CartItem[]
+}
+
+enum Role {
+  SELLER
+  CUSTOMER
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  COMPLETED
+  FAILED
+}
+
+
+
+
