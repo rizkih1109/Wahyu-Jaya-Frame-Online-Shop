@@ -9,7 +9,12 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const { email, password } = await req.json();
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+      omit: {
+        password: false,
+      },
+    });
 
     if (!(user && checkPassword(password, user.password)))
       return NextResponse.json(
@@ -17,9 +22,9 @@ export async function POST(req: Request) {
         { status: 401 }
       );
 
-    const refreshToken = createRefreshToken({ userid: user.id });
-    const accessToken = createAccessToken({ userid: user.id });
-    const role = user.role
+    const refreshToken = createRefreshToken({ userid: user.id, role: user.role });
+    const accessToken = createAccessToken({ userid: user.id, role: user.role });
+    const role = user.role;
 
     await prisma.user.update({
       where: { id: user.id },
@@ -30,7 +35,7 @@ export async function POST(req: Request) {
       message: "login is successfull",
       accessToken,
       refreshToken,
-      role
+      role,
     });
 
     response.cookies.set("refreshToken", refreshToken, {
