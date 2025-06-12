@@ -18,19 +18,17 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.signUp(email, password);
 
-    const refreshToken = createRefreshToken({ userid: user.id });
+    const refreshToken = createRefreshToken({ userid: user.id, role: 'CUSTOMER' });
 
     await prisma.user.update({
       where: { id: user.id },
       data: { refreshToken },
     });
 
-    console.log('cobain dulu', user)
-
     return NextResponse.json({
         email: user.email,
         refreshToken,
-        accessToken: createAccessToken({userid: user.id})
+        accessToken: createAccessToken({userid: user.id, role:'CUSTOMER'})
     })
   } catch (err) {
     if (err instanceof Error) {

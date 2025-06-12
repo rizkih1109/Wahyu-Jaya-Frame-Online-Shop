@@ -9,6 +9,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const { email, password } = await req.json();
+
     const user = await prisma.user.findUnique({
       where: { email },
       omit: {
@@ -22,7 +23,10 @@ export async function POST(req: Request) {
         { status: 401 }
       );
 
-    const refreshToken = createRefreshToken({ userid: user.id, role: user.role });
+    const refreshToken = createRefreshToken({
+      userid: user.id,
+      role: user.role,
+    });
     const accessToken = createAccessToken({ userid: user.id, role: user.role });
     const role = user.role;
 
@@ -40,11 +44,15 @@ export async function POST(req: Request) {
 
     response.cookies.set("refreshToken", refreshToken, {
       httpOnly: true,
+      sameSite: "lax",
+      path: "/",
       maxAge: 60 * 60 * 24,
     });
 
     response.cookies.set("accessToken", accessToken, {
       httpOnly: true,
+      sameSite: "lax",
+      path: "/",
       maxAge: 60 * 60,
     });
 

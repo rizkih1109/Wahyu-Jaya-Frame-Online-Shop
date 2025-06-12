@@ -67,7 +67,7 @@ export default function DateSettings({
             <span className="inline-block py-1 px-2 text-white">Query</span>
           </button>
           <button className="rounded bg-red-500 mr-5">
-            <span className="bg-red-600 block float-left rounded-l p-1 size-8 flex justify-center items-center">
+            <span className="bg-red-600 float-left rounded-l p-1 size-8 flex justify-center items-center">
             <Image className="object-contain size-4" src="/reset.png" alt="reset" width={40} height={40} />
             </span>
             <span className="inline-block py-1 px-2 text-white">Reset</span>

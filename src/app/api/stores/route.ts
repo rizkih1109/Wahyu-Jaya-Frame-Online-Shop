@@ -18,10 +18,10 @@ export async function GET() {
 
 export async function POST(req:Request) {
   try {
-    const {storeName, address} = await req.json()
+    const {storeName, ownerId} = await req.json()
     const store = await prisma.store.create({
       data: {
-        storeName, address
+        storeName, ownerId
       }
     })
     return NextResponse.json(store)

@@ -4,19 +4,20 @@ import Image from "next/image";
 import FormCredential from "./FormCredential";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useAppSelector } from "@/lib/redux/hooks";
+import { RootState } from "@/lib/redux/store";
+import Alert from "./Alert";
 
 export default function FormBox() {
   const pathName = usePathname();
+
+  const status = useAppSelector((state: RootState) => state.user.status);
 
   const formType = pathName.includes("login")
     ? "login"
     : pathName.includes("register")
     ? "account"
     : "profile";
-
-  // const onSubmit = (data: formData) => {
-  //   console.log(data);
-  // };
 
   return (
     <div className="p-10 m-2 w-96 rounded-xl border-solid border-gray-200 border bg-white shadow-2xl">
@@ -45,6 +46,7 @@ export default function FormBox() {
           {formType === 'login' ? "Sign Up" : "Sign In"}
         </Link>
       </div>
+      {status === 'failed' && <Alert />}
     </div>
   );
 }

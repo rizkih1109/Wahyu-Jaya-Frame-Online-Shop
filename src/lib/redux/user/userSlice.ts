@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { login } from "./userApi";
+import { login, logout } from "./userApi";
 import { setToken } from "../../api";
 
 interface UserState {
   value: User;
-  status: string
+  status: string;
 }
 
 const initialState: UserState = {
@@ -14,12 +14,11 @@ const initialState: UserState = {
     password: "",
     userName: "",
     phone: "",
-    address: "",
     refreshToken: "",
     accessToken: "",
     role: "",
   },
-  status: "idle"
+  status: "idle",
 } satisfies UserState as UserState;
 
 export const loginAsync = createAsyncThunk(
@@ -28,7 +27,6 @@ export const loginAsync = createAsyncThunk(
     try {
       const response = await login(email, password);
       setToken(response.data.accessToken);
-      console.log(response.data)
       return response.data;
     } catch (err) {
       console.log(err);
@@ -36,6 +34,16 @@ export const loginAsync = createAsyncThunk(
     }
   }
 );
+
+export const logoutAsync = createAsyncThunk("user/logout", async () => {
+  try {
+    const response = await logout();
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+});
 
 export const userSlice = createSlice({
   name: "user",
@@ -50,18 +58,27 @@ export const userSlice = createSlice({
         if (action.payload) {
           state.status = "idle";
           state.value = action.payload;
-          console.log(state.value)
         } else {
-          state.status = "error";
+          state.status = "failed";
           state.value = initialState.value;
         }
       })
       .addCase(loginAsync.rejected, (state) => {
         state.status = "failed";
         state.value = initialState.value;
+      })
+      .addCase(logoutAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(logoutAsync.fulfilled, (state) => {
+        state.status = "idle";
+        state.value = initialState.value;
+      })
+      .addCase(logoutAsync.rejected, (state) => {
+        state.status = "failed";
+        state.value = initialState.value;
       });
   },
 });
-
 
 export default userSlice.reducer;

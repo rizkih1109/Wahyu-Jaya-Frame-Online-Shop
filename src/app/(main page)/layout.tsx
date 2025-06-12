@@ -32,7 +32,7 @@ export default function MainLayout({
                         <p className="text-justify">Wahyu Jaya Frame is on of the biggest market of frames in Bandung. We supply our products to several photo studios and traders</p>
                     </div>
                     <div className="col-span-2">
-                        <ul className="flex flex-row grid grid-cols-5">
+                        <ul className="flex flex-row grid-cols-5">
                             <nav>
                                 <p className="border-b-2 border-black font-bold pb-2">Category</p>
                                 <ul>

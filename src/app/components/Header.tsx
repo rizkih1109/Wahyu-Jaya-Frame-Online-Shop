@@ -4,6 +4,7 @@ import {
   faCartShopping,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -29,10 +30,15 @@ export default function Header() {
         <div className="mr-8 flex items-center">
           <FontAwesomeIcon icon={faCartShopping} className="size-6 mr-5" />
           <div className="border border-solid border-l-black h-10 mr-3"></div>
-          <button className="py-1 px-3 bg-white text-orangeMain font-poppins rounded-md mx-1">Register</button>
-          <button className="py-1 px-5 bg-orangeMain text-white font-poppins rounded-md mx-1">
+          <Link href={"register"} className="py-1 px-3 bg-white text-orangeMain font-poppins rounded-md mx-1">
+            Register
+          </Link>
+          <Link
+            href={"login"}
+            className="py-1 px-5 bg-orangeMain text-white font-poppins rounded-md mx-1"
+          >
             Log In
-          </button>
+          </Link>
         </div>
       </div>
     </div>
